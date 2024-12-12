@@ -81,9 +81,9 @@ btnWords.addEventListener("click", (event) => {
   const words = wordsValue.split(" "); // Dividimos las palabras en un array
   let positiveCount = 0;
   let negativeCount = 0;
-  
 
- const promises = words.map(async(word) => { // Hacemos una llamada a la api por cada palabra dividido con split
+  const promises = words.map(async (word) => {
+    // Hacemos una llamada a la api por cada palabra dividido con split
     return fetch(apiWordUrl, {
       method: "POST",
       headers: {
@@ -99,16 +99,17 @@ btnWords.addEventListener("click", (event) => {
         }
         return response.json();
       })
-      .then((data) => { // Utilizamos reduce para recoger el resultado deseado segun score
+      .then((data) => {
+        // Utilizamos reduce para recoger el resultado deseado segun score
         const bestAnswer = data[0].reduce((prev, curr) =>
           curr.score > prev.score ? curr : prev
         );
-        
-        if (bestAnswer.label === "POSITIVE") { 
+
+        if (bestAnswer.label === "POSITIVE") {
           positiveCount++; // Llenamos positivo o negativo segun resultado
         } else if (bestAnswer.label === "NEGATIVE") {
           negativeCount++;
-        } 
+        }
       })
       .catch((error) => {
         console.error("Error:", error);
@@ -121,7 +122,7 @@ btnWords.addEventListener("click", (event) => {
     .then(() => {
       console.log(`Positives: ${positiveCount}, Negatives: ${negativeCount}`);
       let finalSentiment;
-      
+
       // Si el número de palabras positivas y negativas es igual, es "Neutral"
       if (positiveCount === negativeCount) {
         finalSentiment = "Neutral";
@@ -130,7 +131,6 @@ btnWords.addEventListener("click", (event) => {
       } else {
         finalSentiment = "Negative";
       }
-
 
       resultWords.innerHTML = `Sentiment based on words: ${finalSentiment}`;
     })
