@@ -83,7 +83,7 @@ btnWords.addEventListener("click", (event) => {
   let negativeCount = 0;
   
 
- const promises = words.map((word) => { // Hacemos una llamada a la api por cada palabra dividido con split
+ const promises = words.map(async(word) => { // Hacemos una llamada a la api por cada palabra dividido con split
     return fetch(apiWordUrl, {
       method: "POST",
       headers: {
